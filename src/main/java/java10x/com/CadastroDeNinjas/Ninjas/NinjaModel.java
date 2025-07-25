@@ -1,6 +1,7 @@
 package java10x.com.CadastroDeNinjas.Ninjas;
 
 import jakarta.persistence.*;
+import java10x.com.CadastroDeNinjas.missoes.MissoesModel;
 
 @Entity
 @Table(name = "tb_cadastro")
@@ -13,6 +14,11 @@ public class NinjaModel {
     private String email;
     private int idade;
 
+    // Relacionamento com a tabela de missões: So Podemos ter uma missão por ninja
+    @ManyToOne
+    @JoinColumn(name = "missao_id") // Forein key ou chave estrangeira
+    private MissoesModel missoes;
+
     public NinjaModel() {
     }
 
@@ -20,6 +26,14 @@ public class NinjaModel {
         this.idade = idade;
         this.email = email;
         this.nome = nome;
+    }
+
+    public NinjaModel(Long id, String nome, String email, int idade, MissoesModel missoes) {
+        this.id = id;
+        this.nome = nome;
+        this.email = email;
+        this.idade = idade;
+        this.missoes = missoes;
     }
 
     public Long getId() {
