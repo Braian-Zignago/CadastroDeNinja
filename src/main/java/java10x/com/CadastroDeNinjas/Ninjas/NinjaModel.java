@@ -1,10 +1,10 @@
-package java10x.com.CadastroDeNinjas.Model;
+package java10x.com.CadastroDeNinjas.Ninjas;
 
 import jakarta.persistence.*;
 
 @Entity
 @Table(name = "tb_cadastro")
-public class Ninja {
+public class NinjaModel {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -13,10 +13,10 @@ public class Ninja {
     private String email;
     private int idade;
 
-    public Ninja() {
+    public NinjaModel() {
     }
 
-    public Ninja(int idade, String email, String nome) {
+    public NinjaModel(int idade, String email, String nome) {
         this.idade = idade;
         this.email = email;
         this.nome = nome;

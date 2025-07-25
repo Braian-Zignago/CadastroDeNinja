@@ -1,0 +1,29 @@
+[33mcommit 8ae43cc6b24f149a0fd16da11d5cfe13f2ae89a7[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mmain[m[33m, [m[1;31morigin/main[m[33m)[m
+Author: Braian-Zignago <braianzig77@gmail.com>
+Date:   Wed Jul 23 22:38:35 2025 -0300
+
+    feat: Create Entity Ninja
+
+[33mcommit f0b42291f3817ad80417e33349f217fe8c18d221[m
+Author: Braian-Zignago <braianzig77@gmail.com>
+Date:   Wed Jul 23 22:37:24 2025 -0300
+
+    feat: Add Dependency JPA
+
+[33mcommit ec13086e5591264010f87acaaac00dba7a967cd8[m
+Author: Braian-Zignago <braianzig77@gmail.com>
+Date:   Wed Jul 23 22:04:08 2025 -0300
+
+    feat: Create Controller to / 'mensage welcome'
+
+[33mcommit d5ca58f87dde2c8b6313d5f6e31820a65e5c1c73[m
+Author: Braian-Zignago <braianzig77@gmail.com>
+Date:   Wed Jul 23 21:39:18 2025 -0300
+
+    Create Spring Boot
+
+[33mcommit 907e9c3452e60694e40dc3b7e2d3aecfeb28f417[m
+Author: Braian-Zignago <braianzig77@gmail.com>
+Date:   Wed Jul 23 21:37:31 2025 -0300
+
+    first commit
