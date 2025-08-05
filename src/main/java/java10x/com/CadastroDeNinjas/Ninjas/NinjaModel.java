@@ -16,10 +16,13 @@ public class NinjaModel {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String nome;
-    private String email;
-    private int idade;
 
+    private String nome;
+
+    @Column(unique = true)
+    private String email;
+
+    private int idade;
     // Relacionamento com a tabela de missões: So Podemos ter uma missão por ninja
     @ManyToOne
     @JoinColumn(name = "missao_id") // Forein key ou chave estrangeira
