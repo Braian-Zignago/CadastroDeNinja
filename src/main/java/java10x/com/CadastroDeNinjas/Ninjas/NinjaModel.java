@@ -22,6 +22,8 @@ public class NinjaModel {
     @Column(unique = true)
     private String email;
 
+    private String img_url;
+
     private int idade;
     // Relacionamento com a tabela de missões: So Podemos ter uma missão por ninja
     @ManyToOne
