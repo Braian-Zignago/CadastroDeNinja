@@ -1,4 +1,40 @@
 package java10x.com.CadastroDeNinjas.missoes;
+import org.springframework.web.bind.annotation.*;
 
+
+@RestController
+@RequestMapping("/cadastro-de-missoes")
 public class MissoesController {
+
+    @GetMapping
+    public String boasVindas() {
+        return "Bem-vindo ao Cadastro de Missoes!";
+    }
+
+    // Endpoints para manipulação de missoes
+
+    // Criar uma missao (CREATE)
+    @PostMapping("/criar")
+    public String criarMissao() {
+        return "Missao criada com sucesso!";
+    }
+
+    // Listar missoes (READ)
+    @GetMapping("/listar")
+    public String listarTodasAsMissoes() {
+        return "Mostrar todas as missoes cadastradas!";
+    }
+
+    // Atualizar uma missao (UPDATE)
+    @PutMapping("/atualizar")
+    public String alterarMissaoPorID() {
+        return "Missao alterada por ID com sucesso!";
+    }
+
+    // Deletar uma missao (DELETE)
+    @DeleteMapping("/deletar")
+    public String deletarMissao() {
+        return "Missao deletada por ID com sucesso!";
+    }
+    //Famoso CRUD Create, Read, Update, Delete criado.
 }
