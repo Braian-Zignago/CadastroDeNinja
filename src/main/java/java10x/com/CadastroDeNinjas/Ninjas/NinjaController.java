@@ -1,15 +1,48 @@
 package java10x.com.CadastroDeNinjas.Ninjas;
 
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/")
+@RequestMapping("/cadastro-de-ninjas")
 public class NinjaController {
 
     @GetMapping
     public String boasVindas() {
         return "Bem-vindo ao Cadastro de Ninjas!";
     }
+
+    // Endpoints para manipulação de ninjas
+
+    // Criar um ninja (CREATE)
+    @PostMapping("/criar")
+    public String criarNinja() {
+        return "Ninja criado com sucesso!";
+    }
+
+    // Ler um ninja (READ)
+    @GetMapping("/todos")
+    public String mostrarTodosOsNinjas() {
+        return "Mostrar todos os ninjas cadastrados!";
+    }
+
+    // Mostrar um ninja por ID (READ)
+    @GetMapping("/todosID")
+    public String mostrarTodosOsNinjasID() {
+        return "Mostrar todos os ninjas cadastrados com ID!";
+    }
+
+    // Atualizar um ninja por ID (UPDATE)
+    @PutMapping("/alterarID")
+    public String alterarNinjaPorID() {
+        return "Ninja alterado por ID com sucesso!";
+    }
+
+    // Deletar um ninja por ID (DELETE)
+    @DeleteMapping("/deletarID")
+    public String deletarNinjaPorID() {
+        return "Ninja deletado por ID com sucesso!";
+    }
+
+    //Famoso CRUD Create, Read, Update, Delete criado.
+
 }
