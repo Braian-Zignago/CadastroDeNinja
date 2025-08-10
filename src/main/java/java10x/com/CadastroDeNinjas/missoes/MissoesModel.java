@@ -1,5 +1,6 @@
 package java10x.com.CadastroDeNinjas.missoes;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import java10x.com.CadastroDeNinjas.Ninjas.NinjaModel;
 import lombok.AllArgsConstructor;
@@ -24,5 +25,6 @@ public class MissoesModel {
 
     // Relacionamento com a tabela de ninjas: Missao pode ter vários ninjas nela.
     @OneToMany(mappedBy = "missoes") // mappedBy indica que a relação é gerenciada pela classe NinjaModel
+    @JsonIgnore
     private List<NinjaModel> ninjas;
 }
