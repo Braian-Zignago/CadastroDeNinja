@@ -22,8 +22,8 @@ public class MissoesController {
 
     // Criar uma missao (CREATE)
     @PostMapping("/criar")
-    public String criarMissao() {
-        return "Missao criada com sucesso!";
+    public MissoesModel criarMissao(@RequestBody MissoesModel missao){
+        return missoesService.criarMissao(missao);
     }
 
     // Listar missoes (READ)
