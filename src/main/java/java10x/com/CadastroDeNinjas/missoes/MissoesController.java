@@ -32,6 +32,14 @@ public class MissoesController {
         return missoesService.listarAsMissoes();
     }
 
+    // Listar uma missao por ID (READ)
+    // Exemplo: http://localhost:8080/cadastro-de-missoes/listar/{id}
+    // Onde {id} é o ID da missão que você deseja buscar.
+    @GetMapping("/listar/{id}")
+    public MissoesModel listarMissaoPorId(@PathVariable Long id) {
+        return missoesService.listarMissaoPorId(id);
+    }
+
     // Atualizar uma missao (UPDATE)
     @PutMapping("/atualizar")
     public String alterarMissaoPorID() {
