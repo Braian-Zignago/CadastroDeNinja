@@ -34,11 +34,10 @@ public class NinjaController {
     }
 
     // Mostrar um ninja por ID (READ)
-    @GetMapping("/todosID")
-    public String mostrarTodosOsNinjasID() {
-        return "Mostrar todos os ninjas cadastrados com ID!";
+    @GetMapping("/listar/{id}")
+    public NinjaModel listarNinjaPorId(@PathVariable Long id) {
+        return ninjaService.listarNinjaPorId(id);
     }
-
     // Atualizar um ninja por ID (UPDATE)
     @PutMapping("/alterarID")
     public String alterarNinjaPorID() {
@@ -51,6 +50,6 @@ public class NinjaController {
         return "Ninja deletado por ID com sucesso!";
     }
 
-    //Famoso CRUD Create, Read, Update, Delete criado.
+    //Famoso CRUD Create, Read, ‘Update’, delete criado.
 
 }
