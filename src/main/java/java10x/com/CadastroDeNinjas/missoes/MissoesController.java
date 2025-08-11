@@ -47,9 +47,9 @@ public class MissoesController {
     }
 
     // Deletar uma missao (DELETE)
-    @DeleteMapping("/deletar")
-    public String deletarMissao() {
-        return "Missao deletada por ID com sucesso!";
+    @DeleteMapping("/deletar/{id}")
+    public void deletarMissaoPorId(@PathVariable long id) {
+        missoesService.deletarMissaoPorId(id);
     }
     //Famoso CRUD Create, Read, Update, Delete criado.
 }
