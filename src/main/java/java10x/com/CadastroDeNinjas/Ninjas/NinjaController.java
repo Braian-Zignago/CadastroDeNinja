@@ -45,9 +45,9 @@ public class NinjaController {
     }
 
     // Deletar um ninja por ID (DELETE)
-    @DeleteMapping("/deletarID")
-    public String deletarNinjaPorID() {
-        return "Ninja deletado por ID com sucesso!";
+    @DeleteMapping("/deletar/{id}")
+    public void deletarNinjaPorID(@PathVariable long id) {
+        ninjaService.deletarNinjaPorId(id);
     }
 
     //Famoso CRUD Create, Read, ‘Update’, delete criado.
