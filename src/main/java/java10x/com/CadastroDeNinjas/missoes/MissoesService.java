@@ -37,4 +37,13 @@ public class MissoesService {
     public void deletarMissaoPorId(Long id) {
         missoesRepository.deleteById(id);
     }
+
+    public MissoesModel alterarMissaoPorId(Long id, MissoesModel missaoAtualizada) {
+        Optional<MissoesModel> missaoExistente = missoesRepository.findById(id);
+        if (missaoExistente.isPresent()) {
+            missaoAtualizada.setId(id); // Garantir que o ID seja mantido
+            return missoesRepository.save(missaoAtualizada);
+        }
+        return null; // Retorna null se a missão não existir
+    }
 }

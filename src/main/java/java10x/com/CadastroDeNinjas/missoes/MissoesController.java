@@ -41,9 +41,9 @@ public class MissoesController {
     }
 
     // Atualizar uma missao (UPDATE)
-    @PutMapping("/atualizar")
-    public String alterarMissaoPorID() {
-        return "Missao alterada por ID com sucesso!";
+    @PutMapping("/alterar/{id}")
+    public MissoesModel alterarMissaoPorID(@PathVariable long id, @RequestBody MissoesModel missaoAtualizada) {
+        return missoesService.alterarMissaoPorId(id, missaoAtualizada);
     }
 
     // Deletar uma missao (DELETE)
