@@ -26,6 +26,9 @@ public class NinjaModel {
 
     private int idade;
     // Relacionamento com a tabela de missões: So Podemos ter uma missão por ninja
+
+    @Column(name = "rank")
+    private String rank;
     @ManyToOne
     @JoinColumn(name = "missao_id") // Forein key ou chave estrangeira
     private MissoesModel missoes;
