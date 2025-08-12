@@ -8,41 +8,53 @@ import java.util.Optional;
 @Service
 public class MissoesService {
 
-    private MissoesRepository missoesRepository;
+    private final MissoesRepository missoesRepository;
+    private final MissoesMapper missoesMapper;
 
-    public MissoesService(MissoesRepository missoesRepository) {
+    public MissoesService(MissoesRepository missoesRepository, MissoesMapper missoesMapper) {
         this.missoesRepository = missoesRepository;
+        this.missoesMapper = missoesMapper;
     }
 
-    public List<MissoesModel> listarAsMissoes() {
-        return missoesRepository.findAll();
+    public List<MissoesDTO> listarAsMissoes() {
+        List<MissoesModel> missoes = missoesRepository.findAll();
+        return missoes.stream()
+                .map(missoesMapper::map)
+                .toList();
     }
 
     /**
-     * Metodo para listar uma missão por ID.
+     * Metodo para listar uma missão por ‘ID’.
      *
-     * @param id ID da missão a ser buscada.
-     * @return Objeto MissoesModel correspondente ao ID, ou null se não encontrado.
+     * @param id ‘ID’ da missão a ser buscada.
+     * @return Objeto MissoesModel correspondente ao ‘ID’, ou null se não encontrado.
      */
-    public MissoesModel listarMissaoPorId(Long id) {
+    public MissoesDTO listarMissaoPorId(Long id) {
         Optional<MissoesModel> missaoPorId = missoesRepository.findById(id);
-        return missaoPorId.orElse(null);
+        return missaoPorId.stream()
+                .map(missoesMapper::map)
+                .findAny()
+                .orElse(null);
     }
 
     // Criar Missão (CREATE)
-    public MissoesModel criarMissao(MissoesModel missao) {
-        return missoesRepository.save(missao);
+    public MissoesDTO criarMissao(MissoesDTO missaoDTO) {
+        MissoesModel missoes = missoesMapper.map(missaoDTO);
+        missoes = missoesRepository.save(missoes);
+        return missoesMapper.map(missoes);
     }
 
     public void deletarMissaoPorId(Long id) {
         missoesRepository.deleteById(id);
     }
 
-    public MissoesModel alterarMissaoPorId(Long id, MissoesModel missaoAtualizada) {
+    public MissoesDTO alterarMissaoPorId(Long id, MissoesDTO missaoDTO) {
         Optional<MissoesModel> missaoExistente = missoesRepository.findById(id);
         if (missaoExistente.isPresent()) {
-            missaoAtualizada.setId(id); // Garantir que o ID seja mantido
-            return missoesRepository.save(missaoAtualizada);
+            MissoesModel missaoAtualizada = missoesMapper.map(missaoDTO);
+            missaoAtualizada.setId(id);
+            MissoesModel missaoSalva = missoesRepository.save(missaoAtualizada);
+            return missoesMapper.map(missaoSalva);
         }
         return null; // Retorna null se a missão não existir
     }

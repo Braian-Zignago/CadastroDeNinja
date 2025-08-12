@@ -8,7 +8,8 @@ import java.util.List;
 @RequestMapping("/cadastro-de-missoes")
 public class MissoesController {
 
-    private MissoesService missoesService;
+    private final MissoesService missoesService;
+
     public MissoesController(MissoesService missoesService) {
         this.missoesService = missoesService;
     }
@@ -22,13 +23,13 @@ public class MissoesController {
 
     // Criar uma missao (CREATE)
     @PostMapping("/criar")
-    public MissoesModel criarMissao(@RequestBody MissoesModel missao){
+    public MissoesDTO criarMissao(@RequestBody MissoesDTO missao){
         return missoesService.criarMissao(missao);
     }
 
     // Listar missoes (READ)
     @GetMapping("/listar")
-    public List<MissoesModel> listarAsMissoes() {
+    public List<MissoesDTO> listarAsMissoes() {
         return missoesService.listarAsMissoes();
     }
 
@@ -36,13 +37,13 @@ public class MissoesController {
     // Exemplo: http://localhost:8080/cadastro-de-missoes/listar/{id}
     // Onde {id} é o ID da missão que você deseja buscar.
     @GetMapping("/listar/{id}")
-    public MissoesModel listarMissaoPorId(@PathVariable Long id) {
+    public MissoesDTO listarMissaoPorId(@PathVariable Long id) {
         return missoesService.listarMissaoPorId(id);
     }
 
     // Atualizar uma missao (UPDATE)
     @PutMapping("/alterar/{id}")
-    public MissoesModel alterarMissaoPorID(@PathVariable long id, @RequestBody MissoesModel missaoAtualizada) {
+    public MissoesDTO alterarMissaoPorID(@PathVariable long id, @RequestBody MissoesDTO missaoAtualizada) {
         return missoesService.alterarMissaoPorId(id, missaoAtualizada);
     }
 
