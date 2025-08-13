@@ -1,4 +1,6 @@
 package java10x.com.CadastroDeNinjas.missoes;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -19,38 +21,47 @@ public class MissoesController {
         return "Bem-vindo ao Cadastro de Missoes!";
     }
 
-    // Endpoints para manipulação de missoes
-
-    // Criar uma missao (CREATE)
     @PostMapping("/criar")
-    public MissoesDTO criarMissao(@RequestBody MissoesDTO missao){
-        return missoesService.criarMissao(missao);
+    public ResponseEntity<String> criarMissao(@RequestBody MissoesDTO missao){
+        MissoesDTO novaMissao = missoesService.criarMissao(missao);
+        return ResponseEntity.status(HttpStatus.CREATED)
+                .body("Missão criada com sucesso: " + novaMissao.getNome() + ". com ID: " + novaMissao.getId());
     }
 
-    // Listar missoes (READ)
     @GetMapping("/listar")
-    public List<MissoesDTO> listarAsMissoes() {
-        return missoesService.listarAsMissoes();
+    public ResponseEntity<List<MissoesDTO>> listarAsMissoes() {
+        List<MissoesDTO> missoes = missoesService.listarAsMissoes();
+        return ResponseEntity.ok(missoes);
     }
 
-    // Listar uma missao por ID (READ)
-    // Exemplo: http://localhost:8080/cadastro-de-missoes/listar/{id}
-    // Onde {id} é o ID da missão que você deseja buscar.
     @GetMapping("/listar/{id}")
-    public MissoesDTO listarMissaoPorId(@PathVariable Long id) {
-        return missoesService.listarMissaoPorId(id);
+    public ResponseEntity<?> listarMissaoPorId(@PathVariable Long id) {
+        MissoesDTO missao =  missoesService.listarMissaoPorId(id);
+        if (missao == null) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body("Não foi possível encontrar a missão com ID: " + id);
+        }
+        return ResponseEntity.ok(missao);
     }
 
-    // Atualizar uma missao (UPDATE)
     @PutMapping("/alterar/{id}")
-    public MissoesDTO alterarMissaoPorID(@PathVariable long id, @RequestBody MissoesDTO missaoAtualizada) {
-        return missoesService.alterarMissaoPorId(id, missaoAtualizada);
+    public ResponseEntity<?> alterarMissaoPorID(@PathVariable long id, @RequestBody MissoesDTO missaoAtualizada) {
+        MissoesDTO missao =  missoesService.alterarMissaoPorId(id, missaoAtualizada);
+        if (missao == null) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body("Missão com ID (" + id + ") não foi encontrada ou não foi possível atualizar.");
+        }
+        return ResponseEntity.ok(missao);
     }
 
-    // Deletar uma missao (DELETE)
     @DeleteMapping("/deletar/{id}")
-    public void deletarMissaoPorId(@PathVariable long id) {
+    public ResponseEntity<String> deletarMissaoPorId(@PathVariable long id) {
+        MissoesDTO missaoAEliminar =  missoesService.listarMissaoPorId(id);
+        if (missaoAEliminar == null) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body("Missão com ID (" + id + ") não foi encontrada.");
+        }
         missoesService.deletarMissaoPorId(id);
+        return ResponseEntity.ok("Missão " + missaoAEliminar.getNome() + " com ID (" + id + ") foi deletada com sucesso.");
     }
-    //Famoso CRUD Create, Read, Update, Delete criado.
 }
