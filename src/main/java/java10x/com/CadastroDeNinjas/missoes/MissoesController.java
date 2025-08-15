@@ -4,6 +4,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
+import java.util.Objects;
 
 
 @RestController
@@ -50,6 +52,16 @@ public class MissoesController {
         if (missao == null) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND)
                     .body("Missão com ID (" + id + ") não foi encontrada ou não foi possível atualizar.");
+        }
+        return ResponseEntity.ok(missao);
+    }
+
+    @PatchMapping("alterar/{id}")
+    public ResponseEntity<?> alterarMissoesPorID(@PathVariable long id, @RequestBody Map<String, Object> fields){
+        MissoesDTO missao = missoesService.alterarMissaoPorId(id, fields);
+        if (missao == null) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body("Missão com ID (" + id + ") não foi encontrado ou não foi possível atualizar.");
         }
         return ResponseEntity.ok(missao);
     }

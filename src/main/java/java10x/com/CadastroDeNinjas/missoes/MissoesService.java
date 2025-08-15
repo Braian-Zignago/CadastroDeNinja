@@ -1,8 +1,13 @@
 package java10x.com.CadastroDeNinjas.missoes;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.stereotype.Service;
+import org.springframework.util.ReflectionUtils;
 
+import java.lang.reflect.Field;
 import java.util.List;
+import java.util.Map;
+import java.util.Objects;
 import java.util.Optional;
 
 @Service
@@ -23,12 +28,6 @@ public class MissoesService {
                 .toList();
     }
 
-    /**
-     * Metodo para listar uma missão por ‘ID’.
-     *
-     * @param id ‘ID’ da missão a ser buscada.
-     * @return Objeto MissoesModel correspondente ao ‘ID’, ou null se não encontrado.
-     */
     public MissoesDTO listarMissaoPorId(Long id) {
         Optional<MissoesModel> missaoPorId = missoesRepository.findById(id);
         return missaoPorId.stream()
@@ -57,5 +56,27 @@ public class MissoesService {
             return missoesMapper.map(missaoSalva);
         }
         return null; // Retorna null se a missão não existir
+    }
+
+    public MissoesDTO alterarMissaoPorId(Long id, Map<String, Object> fields) {
+        MissoesModel missaoExistente = missoesRepository.findById(id).orElse(null);
+        if (missaoExistente == null) {
+            return null;
+        }
+        MissoesDTO missaoExistenteDto = missoesMapper.map(missaoExistente);
+        merge(fields, missaoExistenteDto);
+        missaoExistenteDto = missoesMapper.map(missoesRepository.save(missoesMapper.map(missaoExistenteDto)));
+        return missaoExistenteDto;
+    }
+
+    private void merge(Map<String, Object> fields, MissoesDTO missaoExistente){
+        ObjectMapper objectMapper = new ObjectMapper();
+        MissoesDTO missaoConvertida = objectMapper.convertValue(fields, MissoesDTO.class);
+        fields.forEach((atributo, valor) -> {
+            Field field = ReflectionUtils.findField(MissoesDTO.class, atributo);
+            Objects.requireNonNull(field).setAccessible(true);
+            Object novoValor = ReflectionUtils.getField(field, missaoConvertida);
+            ReflectionUtils.setField(field, missaoExistente, novoValor);
+        });
     }
 }
