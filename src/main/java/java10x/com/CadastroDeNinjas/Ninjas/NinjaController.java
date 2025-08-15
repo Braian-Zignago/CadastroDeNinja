@@ -3,8 +3,8 @@ package java10x.com.CadastroDeNinjas.Ninjas;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/cadastro-de-ninjas")
@@ -48,6 +48,17 @@ public class NinjaController {
     @PutMapping("/alterar/{id}")
     public ResponseEntity<?> alterarNinjaPorID(@PathVariable long id, @RequestBody NinjaDTO ninjaAtualizado) {
         NinjaDTO ninja =  ninjaService.alterarNinjaPorId(id, ninjaAtualizado);
+        if (ninja == null) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body("Ninja com ID (" + id + ") não foi encontrado ou não foi possível atualizar.");
+        }
+        return ResponseEntity.ok(ninja);
+    }
+
+    @PatchMapping("/alterar/{id}")
+    public ResponseEntity<?> alterarNinjaPorID(@PathVariable long id, @RequestBody Map<String, Object> fields) {
+        NinjaDTO ninja = null;
+        ninja = ninjaService.alterarNinjaPorId(id, fields);
         if (ninja == null) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND)
                     .body("Ninja com ID (" + id + ") não foi encontrado ou não foi possível atualizar.");

@@ -1,8 +1,11 @@
 package java10x.com.CadastroDeNinjas.Ninjas;
-
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.stereotype.Service;
-
+import org.springframework.util.ReflectionUtils;
+import java.lang.reflect.Field;
 import java.util.List;
+import java.util.Map;
+import java.util.Objects;
 import java.util.Optional;
 
 @Service
@@ -41,13 +44,36 @@ public class NinjaService {
     }
 
     public NinjaDTO alterarNinjaPorId(Long id, NinjaDTO ninjaDTO) {
-        Optional<NinjaModel> ninjaExistente = ninjaRepository.findById(id);
-        if (ninjaExistente.isPresent()){
-            NinjaModel ninjaAtualizado = ninjaMapper.map(ninjaDTO);
-            ninjaAtualizado.setId(id); // Garantir que o ID seja mantido
-            NinjaModel ninjaSalvo = ninjaRepository.save(ninjaAtualizado);
-            return ninjaMapper.map(ninjaSalvo);
+        NinjaModel ninjaExistente = ninjaRepository.findById(id).orElse(null);
+        if (ninjaExistente == null){
+
+            return null; // Retorna null se o ninja não existir
         }
-        return null; // Retorna null se o ninja não existir
+        NinjaModel ninjaAtualizado = ninjaMapper.map(ninjaDTO);
+        ninjaAtualizado.setId(id); // Garantir que o ID seja mantido
+        NinjaModel ninjaSalvo = ninjaRepository.save(ninjaAtualizado);
+        return ninjaMapper.map(ninjaSalvo);
+    }
+
+    public NinjaDTO alterarNinjaPorId(Long id, Map<String, Object> fields) {
+        NinjaModel ninjaExistente = ninjaRepository.findById(id).orElse(null);
+        if (ninjaExistente == null) {
+            return null; // Retorna null se o ninja não existir
+        }
+        NinjaDTO ninjaExistenteDto = ninjaMapper.map(ninjaExistente);
+        merge(fields, ninjaExistenteDto);
+        ninjaExistenteDto = ninjaMapper.map(ninjaRepository.save(ninjaMapper.map(ninjaExistenteDto)));
+        return ninjaExistenteDto;
+    }
+
+    private void merge(Map<String, Object> fields, NinjaDTO ninjaExistente) {
+        ObjectMapper objectMapper = new ObjectMapper();
+        NinjaDTO ninjaConvertido = objectMapper.convertValue(fields, NinjaDTO.class);
+        fields.forEach((atributo, valor) -> {
+            Field field = ReflectionUtils.findField(NinjaDTO.class, atributo);
+            Objects.requireNonNull(field).setAccessible(true);
+            Object novoValor = ReflectionUtils.getField(field, ninjaConvertido);
+            ReflectionUtils.setField(field, ninjaExistente, novoValor);
+        });
     }
 }
