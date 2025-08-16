@@ -34,7 +34,7 @@ Missão: Contém atributos como id, título e descrição. <br>
 Um Ninja pode ter apenas uma Missão, mas uma Missão pode ser atribuída a vários Ninjas.
 
 ## Design do Banco de Dados
-![Esquema do banco de dados](images/diagram.png)
+![Esquema do banco de dados](img/Esquema_db.png)
 
 ---
 ## Tecnologias Utilizadas
