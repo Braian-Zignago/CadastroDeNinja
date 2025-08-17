@@ -1,6 +1,7 @@
 package java10x.com.CadastroDeNinjas.Ninjas;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.ReflectionUtils;
 import java.lang.reflect.Field;
 import java.util.List;
@@ -32,7 +33,13 @@ public class NinjaService {
         return ninjaPorId.map(ninjaMapper::map).orElse(null);
     }
 
+    public NinjaDTO listarNinjaPorNome(String nome){
+        NinjaModel ninjaPorNome = ninjaRepository.findByNome(nome);
+        return ninjaMapper.map(ninjaPorNome);
+    }
+
     //Metodo para criar um ninja
+    @Transactional
     public NinjaDTO criarNinja(NinjaDTO ninjaDTO) {
         NinjaModel ninja = ninjaMapper.map(ninjaDTO);
         ninja = ninjaRepository.save(ninja);

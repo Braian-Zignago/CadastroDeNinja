@@ -50,7 +50,7 @@ public class NinjaController {
         return ResponseEntity.ok(ninjas);
     }
 
-    @GetMapping("/listar/{id}")
+    @GetMapping("/listar/por-id={id}")
     @Operation(summary = "Lista o ninja por Id", description = "Rota lista um ninja pelo seu id")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Ninja encontrado com sucesso"),
@@ -62,6 +62,16 @@ public class NinjaController {
         if (ninja == null) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND)
                     .body("Não foi possível encontrar o ninja com ID: " + id);
+        }
+        return ResponseEntity.ok(ninja);
+    }
+
+    @GetMapping("/listar/por-nome={nome}")
+    public ResponseEntity<?> listarNinjaPorNome(@PathVariable String nome) {
+        NinjaDTO ninja = ninjaService.listarNinjaPorNome(nome);
+        if (ninja == null) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body("Não foi possível encontrar o ninja com nome: " + nome);
         }
         return ResponseEntity.ok(ninja);
     }
